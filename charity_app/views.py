@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 # from django.views.generic.edit import CreateView
 # from django.contrib.auth.views import LoginView
@@ -14,6 +14,10 @@ class UserLoginView(TemplateView):
 
 class AddDonationView(TemplateView):
     template_name = 'form.html'
+
+    def post(self, request):
+        print("POST działa")
+        return redirect('donation-confirmation')
 
 class DonationConfirmationView(TemplateView):
     template_name = 'form-confirmation.html'
