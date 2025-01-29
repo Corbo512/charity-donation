@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
 <body>
-{% block header %} {% endblock %}
     <main>
-    {%  block content %}{%  endblock %}
+    {%  block content %}
+        {% block header %} {% endblock %}
+    {%  endblock %}
     </main>
    <footer>
       <div class="contact">

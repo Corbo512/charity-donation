@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.views.generic.edit import CreateView
-from django.contrib.auth.views import LoginView
+# from django.views.generic.edit import CreateView
+# from django.contrib.auth.views import LoginView
 
 class HomeView(TemplateView):
     template_name = 'index.html'
@@ -14,3 +14,6 @@ class UserLoginView(TemplateView):
 
 class AddDonationView(TemplateView):
     template_name = 'form.html'
+
+class DonationConfirmationView(TemplateView):
+    template_name = 'form-confirmation.html'
