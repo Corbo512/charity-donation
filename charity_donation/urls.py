@@ -16,12 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from charity_app.views import (HomeView, UserLoginView, UserRegisterView, DonationFormView,)
+from charity_app.views import (HomeView, UserLoginView, UserRegisterView, AddDonationView,)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('login/', UserLoginView.as_view(), name='login'),
     path('rejestracja/', UserRegisterView.as_view(), name='register'),
-    path('przekaz-dary/', DonationFormView.as_view(), name='donate-form'),
+    path('przekaz-dary/', AddDonationView.as_view(), name='add-donation'),
 ]
