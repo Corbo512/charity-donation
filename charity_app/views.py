@@ -15,9 +15,5 @@ class UserLoginView(TemplateView):
 class AddDonationView(TemplateView):
     template_name = 'form.html'
 
-    def post(self, request):
-        print("POST działa")
-        return redirect('donation-confirmation')
-
 class DonationConfirmationView(TemplateView):
     template_name = 'form-confirmation.html'
