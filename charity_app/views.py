@@ -11,3 +11,6 @@ class UserRegisterView(TemplateView):
 
 class UserLoginView(TemplateView):
     template_name = 'login.html'
+
+class DonationFormView(TemplateView):
+    template_name = 'form.html'
