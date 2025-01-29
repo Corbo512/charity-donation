@@ -23,5 +23,5 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('login/', UserLoginView.as_view(), name='login'),
     path('rejestracja/', UserRegisterView.as_view(), name='register'),
-    path('dotacja/', DonationFormView.as_view(), name='donate-form'),
+    path('przekaz-dary/', DonationFormView.as_view(), name='donate-form'),
 ]
