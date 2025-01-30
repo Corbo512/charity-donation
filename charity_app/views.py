@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+# from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 # from django.views.generic.edit import CreateView
 # from django.contrib.auth.views import LoginView
