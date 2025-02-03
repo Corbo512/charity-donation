@@ -6,10 +6,12 @@ from .models import Donation, Institution
 class HomeView(TemplateView):
     template_name = 'index.html'
 
-    def get_context_data(self):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['total_donations'] = Donation.objects.all().count()
-        context['total_institutions'] = Institution.objects.all().count()
+        context['donations'] = Donation.objects.all()
+        context['institutions'] = Institution.objects.all()
+        context['total_donations'] = Donation.objects.count()
+        context['total_institutions'] = Institution.objects.count()
         return context
 
 class UserRegisterView(TemplateView):
