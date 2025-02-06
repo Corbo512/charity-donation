@@ -1,5 +1,7 @@
-# from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from django.views.generic.edit import CreateView
+from .forms import UserRegisterForm
 from .models import Donation, Institution
 
 
@@ -14,8 +16,11 @@ class HomeView(TemplateView):
         context['total_institutions'] = Institution.objects.count()
         return context
 
-class UserRegisterView(TemplateView):
+class UserRegisterView(CreateView):
     template_name = 'register.html'
+    form_class = UserRegisterForm
+    success_url = reverse_lazy('login')
+
 
 class UserLoginView(TemplateView):
     template_name = 'login.html'
