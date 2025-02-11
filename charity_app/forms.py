@@ -1,10 +1,11 @@
 from django import forms
 from .models import User
+from django.contrib.auth import authenticate
 
 
 class UserRegisterForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label="Hasło")
-    password2 = forms.CharField(widget=forms.PasswordInput, label="Powtórz hasło")
+    password = forms.CharField()
+    password2 = forms.CharField()
 
     class Meta:
         model = User
@@ -22,3 +23,19 @@ class UserRegisterForm(forms.ModelForm):
         if User.objects.filter(email=email).exists():
             self.add_error('email', 'Konto o takim adresie email już istnieje')
         return cleaned_data
+
+class UserLoginForm(forms.Form):
+    email = forms.CharField(
+        widget=forms.EmailInput(
+            attrs={'class': 'form-group',
+                   'type': 'email',
+                   'placeholder': 'Email'
+                   })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-group',
+                   'type': 'password',
+                   'placeholder': 'Hasło'
+                   })
+    )

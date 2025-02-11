@@ -8,6 +8,11 @@
     <header class="header--main-page">
       <nav class="container container--70">
         <ul class="nav--actions">
+            {% if user.is_authenticated %}
+            <p>Witaj {{ user.first_name }}</p>
+            {% else %}
+            <p>Witaj szanowny gościu</p>
+            {% endif %}
           <li><a href="{% url 'login' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
           <li><a href="{% url 'register' %}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul>

@@ -3,10 +3,14 @@ from django.apps import apps
 from django.contrib import auth
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager
+from django.core.exceptions import PermissionDenied
 
 
 class UserManager(UserManager):
     use_in_migrations = True
+
+    def get_by_natural_key(self, email):
+        return self.get(email=email)
 
     def _create_user(self, email, first_name, last_name, password=None, **extra_fields):
         if not email:
@@ -61,6 +65,36 @@ class UserManager(UserManager):
                 obj=obj,
             )
         return self.none()
+
+    def _user_get_permissions(user, obj, from_name):
+        permissions = set()
+        name = "get_%s_permissions" % from_name
+        for backend in auth.get_backends():
+            if hasattr(backend, name):
+                permissions.update(getattr(backend, name)(user, obj))
+        return permissions
+
+    def _user_has_perm(user, perm, obj):
+        for backend in auth.get_backends():
+            if not hasattr(backend, "has_perm"):
+                continue
+            try:
+                if backend.has_perm(user, perm, obj):
+                    return True
+            except PermissionDenied:
+                return False
+        return False
+
+    def _user_has_module_perms(user, app_label):
+        for backend in auth.get_backends():
+            if not hasattr(backend, "has_module_perms"):
+                continue
+            try:
+                if backend.has_module_perms(user, app_label):
+                    return True
+            except PermissionDenied:
+                return False
+        return False
 
 class User(AbstractUser):
     username = None

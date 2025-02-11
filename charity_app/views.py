@@ -1,7 +1,10 @@
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from django.views.generic.edit import CreateView
-from .forms import UserRegisterForm
+from django.contrib.auth.views import LoginView
+from .forms import UserRegisterForm, UserLoginForm
 from .models import Donation, Institution
 
 
@@ -21,9 +24,32 @@ class UserRegisterView(CreateView):
     form_class = UserRegisterForm
     success_url = reverse_lazy('login')
 
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+        return super().form_valid(form)
 
-class UserLoginView(TemplateView):
+class UserLoginView(FormView):
     template_name = 'login.html'
+    form_class = UserLoginForm
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+
+        user = authenticate(
+            email=email,
+            password=password
+        )
+
+        if user is not None:
+            login(self.request, user)
+            return super().form_valid(form)
+        else:
+            return super().form_invalid(form)
+
 
 class AddDonationView(TemplateView):
     template_name = 'form.html'
