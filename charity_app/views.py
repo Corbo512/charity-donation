@@ -55,3 +55,5 @@ class AddDonationView(TemplateView):
 
 class DonationConfirmationView(TemplateView):
     template_name = 'form-confirmation.html'
+
+

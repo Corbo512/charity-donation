@@ -13,6 +13,10 @@
    <nav class="container container--70">
       <ul class="nav--actions">
          {% if user.is_authenticated %}
+             <form method="post" action="{% url 'logout' %}">
+             {% csrf_token %}
+                 <li><button href="{% url 'logout' %}" class="btn btn--without-border active">Wyloguj</button></li>
+             </form>
          <li class="logged-user">
             Witaj {{ user.first_name }}
             <ul class="dropdown">
