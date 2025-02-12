@@ -59,3 +59,6 @@ class DonationConfirmationView(TemplateView):
 
 class UserLogoutView(LogoutView):
     next_page = 'home'
+
+class UserProfileView(TemplateView):
+    template_name = 'user-profile.html'

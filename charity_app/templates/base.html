@@ -16,7 +16,7 @@
          <li class="logged-user">
             Witaj {{ user.first_name }}
             <ul class="dropdown">
-               <li><a href="#">Profil</a></li>
+               <li><a href="{% url 'user-profile' %}">Profil</a></li>
                <li><a href="#">Ustawienia</a></li>
                 {% if user.is_superuser %}
                 <li><a href="admin/">Panel administracyjny</a></li>
@@ -44,7 +44,7 @@
     {%  endblock %}
     </main>
    <footer>
-      <div class="contact">
+      <div class="contact" id="contact">
         <h2>Skontaktuj się z nami</h2>
         <h3>Formularz kontaktowy</h3>
         <form class="form--contact">
