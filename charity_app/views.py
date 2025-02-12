@@ -1,9 +1,8 @@
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 from django.views.generic.edit import CreateView
-from django.contrib.auth.views import LoginView
 from .forms import UserRegisterForm, UserLoginForm
 from .models import Donation, Institution
 
@@ -48,7 +47,7 @@ class UserLoginView(FormView):
             login(self.request, user)
             return super().form_valid(form)
         else:
-            return super().form_invalid(form)
+            return redirect('register')
 
 
 class AddDonationView(TemplateView):
