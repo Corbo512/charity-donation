@@ -9,9 +9,6 @@ from django.core.exceptions import PermissionDenied
 class UserManager(UserManager):
     use_in_migrations = True
 
-    def get_by_natural_key(self, email):
-        return self.get(email=email)
-
     def _create_user(self, email, first_name, last_name, password=None, **extra_fields):
         if not email:
             raise ValueError('Adres email jest wymagany')

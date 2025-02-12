@@ -653,6 +653,10 @@ form .form-group--checkbox .description .subtitle {
   font-size: 1.2rem;
 }
 
+.dropdown {
+  z-index: 100;
+}
+
 /* line 104, scss/modules/_forms.scss */
 form .form-group--dropdown .dropdown {
   font-family: 'Open Sans', sans-serif;

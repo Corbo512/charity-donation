@@ -13,17 +13,16 @@
    <nav class="container container--70">
       <ul class="nav--actions">
          {% if user.is_authenticated %}
-             <form method="post" action="{% url 'logout' %}">
-             {% csrf_token %}
-                 <li><button href="{% url 'logout' %}" class="btn btn--without-border active">Wyloguj</button></li>
-             </form>
          <li class="logged-user">
             Witaj {{ user.first_name }}
             <ul class="dropdown">
                <li><a href="#">Profil</a></li>
                <li><a href="#">Ustawienia</a></li>
+                {% if user.is_superuser %}
+                <li><a href="admin/">Panel administracyjny</a></li>
+                {% endif %}
                <li>
-                  <form method="post" action="{% url 'home' %}">
+                  <form method="post" action="{% url 'logout' %}">
                      {% csrf_token %}
                      <button type="submit">Wyloguj</button>
                   </form>
