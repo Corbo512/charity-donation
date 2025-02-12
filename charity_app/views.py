@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
@@ -56,4 +57,5 @@ class AddDonationView(TemplateView):
 class DonationConfirmationView(TemplateView):
     template_name = 'form-confirmation.html'
 
-
+class UserLogoutView(LogoutView):
+    next_page = 'home'
