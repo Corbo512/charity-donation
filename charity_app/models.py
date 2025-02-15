@@ -7,16 +7,17 @@ from django.core.exceptions import PermissionDenied
 
 
 class UserManager(UserManager):
-    use_in_migrations = True
+    use_in_migrations = True #co to
 
     def _create_user(self, email, first_name, last_name, password=None, **extra_fields):
         if not email:
-            raise ValueError('Adres email jest wymagany')
+            raise ValueError('Email is required')
         email = self.normalize_email(email)
-        GlobalUserModel = apps.get_model(self.model._meta.app_label, self.model._meta.object_name)
+        GlobalUserModel = apps.get_model(self.model._meta.app_label, self.model._meta.object_name) #a to wgl potrzebne?
         email = GlobalUserModel.normalize_email(email)
         user = self.model(email=email, first_name=first_name, last_name=last_name, **extra_fields)
         user.set_password(password)
+        # user.password = make_password(password) tutaj też
         user.save(using=self.db)
         return user
 
@@ -35,63 +36,6 @@ class UserManager(UserManager):
             raise ValueError("Superuser must have is_superuser=True.")
 
         return self.create_user(email, first_name, last_name, password, **extra_fields)
-
-    def with_perm(
-            self, perm, is_active=True, include_superusers=True, backend=None, obj=None
-    ):
-        if backend is None:
-            backends = auth._get_backends(return_tuples=True)
-            if len(backends) == 1:
-                backend, _ = backends[0]
-            else:
-                raise ValueError(
-                    "You have multiple authentication backends configured and "
-                    "therefore must provide the `backend` argument."
-                )
-        elif not isinstance(backend, str):
-            raise TypeError(
-                "backend must be a dotted import path string (got %r)." % backend
-            )
-        else:
-            backend = auth.load_backend(backend)
-        if hasattr(backend, "with_perm"):
-            return backend.with_perm(
-                perm,
-                is_active=is_active,
-                include_superusers=include_superusers,
-                obj=obj,
-            )
-        return self.none()
-
-    def _user_get_permissions(user, obj, from_name):
-        permissions = set()
-        name = "get_%s_permissions" % from_name
-        for backend in auth.get_backends():
-            if hasattr(backend, name):
-                permissions.update(getattr(backend, name)(user, obj))
-        return permissions
-
-    def _user_has_perm(user, perm, obj):
-        for backend in auth.get_backends():
-            if not hasattr(backend, "has_perm"):
-                continue
-            try:
-                if backend.has_perm(user, perm, obj):
-                    return True
-            except PermissionDenied:
-                return False
-        return False
-
-    def _user_has_module_perms(user, app_label):
-        for backend in auth.get_backends():
-            if not hasattr(backend, "has_module_perms"):
-                continue
-            try:
-                if backend.has_module_perms(user, app_label):
-                    return True
-            except PermissionDenied:
-                return False
-        return False
 
 class User(AbstractUser):
     username = None

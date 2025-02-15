@@ -197,6 +197,10 @@ document.addEventListener("DOMContentLoaded", function() {
         btn.addEventListener("click", e => {
           e.preventDefault();
           this.currentStep++;
+          if (this.currentStep === 5) {
+            const formData = this.getFormData();
+            console.log(formData)
+          }
           this.updateForm();
         });
       });
@@ -237,11 +241,15 @@ document.addEventListener("DOMContentLoaded", function() {
       // TODO: get data from inputs and show them in summary
     }
 
-    /**
-     * Submit form
-     *
-     * TODO: validation, send data to server
-     */
+    getFormData() {
+      const inputs = document.querySelector('#donation-form').querySelectorAll('input, textarea, select');
+      const result = {};
+      for(const input of inputs){
+        result[input.name] = input.value;
+      }
+      return result
+    }
+
     submit(e) {
       e.preventDefault();
       this.currentStep++;
