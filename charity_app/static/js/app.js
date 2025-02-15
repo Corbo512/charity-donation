@@ -238,7 +238,22 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
-      // TODO: get data from inputs and show them in summary
+      const formData = this.getFormData()
+
+      const bagsQuantity = formData.bags ? formData.bags : 'Nie podano';
+      document.querySelector('#bags-quantity span').textContent = `Ilość worków: ${bagsQuantity}`;
+
+      const organization = formData.organization ? formData.organization : 'Nie podano';
+      document.querySelector('#organization span').textContent = `Organizacja: ${organization}`;
+
+      document.querySelector('#address-street span').textContent = formData.address;
+      document.querySelector('#address-city span').textContent = formData.city;
+      document.querySelector('#address-postcode span').textContent = formData.postcode;
+      document.querySelector('#address-phone span').textContent = formData.phone;
+
+      document.querySelector('#pickup-date span').textContent = formData.data;
+      document.querySelector('#pickup-time span').textContent = formData.time;
+      document.querySelector('#pickup-more-info span').textContent = formData.more_info || 'Brak uwag';
     }
 
     getFormData() {
@@ -246,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function() {
       const result = {};
 
       for(const input of inputs) {
-        if (input.type === 'checkbox') {
+        if (input.type === 'checkbox' || input.type === 'radio') {
           if (input.checked) {
             if (!result[input.name]) {
               result[input.name] = [];
