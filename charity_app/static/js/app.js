@@ -240,11 +240,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
       const formData = this.getFormData()
 
-      const bagsQuantity = formData.bags ? formData.bags : 'Nie podano';
-      document.querySelector('#bags-quantity span').textContent = `Ilość worków: ${bagsQuantity}`;
+      const bagsQuantity = formData.bags ? formData.bags : 'Not defined';
+      document.querySelector('#bags-quantity span').textContent = `Bags quantity: ${bagsQuantity}`;
 
-      const organization = formData.organization ? formData.organization : 'Nie podano';
-      document.querySelector('#organization span').textContent = `Organizacja: ${organization}`;
+      const organization = formData.organization ? formData.organization : 'Not defined';
+      document.querySelector('#organization span').textContent = `Organization: ${organization}`;
 
       document.querySelector('#address-street span').textContent = formData.address;
       document.querySelector('#address-city span').textContent = formData.city;
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       document.querySelector('#pickup-date span').textContent = formData.data;
       document.querySelector('#pickup-time span').textContent = formData.time;
-      document.querySelector('#pickup-more-info span').textContent = formData.more_info || 'Brak uwag';
+      document.querySelector('#pickup-more-info span').textContent = formData.more_info || 'No additional comments';
     }
 
     getFormData() {
