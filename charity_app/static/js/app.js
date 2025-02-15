@@ -244,10 +244,21 @@ document.addEventListener("DOMContentLoaded", function() {
     getFormData() {
       const inputs = document.querySelector('#donation-form').querySelectorAll('input, textarea, select');
       const result = {};
-      for(const input of inputs){
-        result[input.name] = input.value;
+
+      for(const input of inputs) {
+        if (input.type === 'checkbox') {
+          if (input.checked) {
+            if (!result[input.name]) {
+              result[input.name] = [];
+            }
+            result[input.name].push(input.value);
+          }
+        } else {
+          result[input.name] = input.value;
+        }
       }
-      return result
+
+      return result;
     }
 
     submit(e) {
