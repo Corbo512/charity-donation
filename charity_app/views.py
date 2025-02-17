@@ -60,7 +60,6 @@ class UserLoginView(FormView):
 class AddDonationView(LoginRequiredMixin, TemplateView):
     template_name = 'form.html'
     form_class = DonationForm
-    success_url = reverse_lazy('donation-confirmation')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -71,8 +70,6 @@ class AddDonationView(LoginRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         form = DonationForm(request.POST)
-        print("Czy formularz jest poprawny?", form.is_valid())  # Sprawdzenie
-        print("Błędy formularza:", form.errors)
         if form.is_valid():
             donation = form.save(commit=False)
             donation.user = self.request.user

@@ -240,20 +240,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
       const formData = this.getFormData()
 
-      const bagsQuantity = formData.bags ? formData.bags : 'Not defined';
-      document.querySelector('#bags-quantity span').textContent = `Bags quantity: ${bagsQuantity}`;
+      const bagsQuantity = formData.quantity ? formData.quantity : 'Not defined';
+      document.querySelector('#bags-quantity span').textContent = `Ilość worków: ${bagsQuantity}`;
 
-      const institution = formData.institution ? formData.institution : 'Not defined';
-      document.querySelector('#institution span').textContent = `Organization: ${institution}`;
+      const selectedInstitution = document.querySelector('input[name="institution"]:checked');
+      const institutionName = selectedInstitution ? selectedInstitution.closest('label').querySelector('.title').textContent : 'Not defined';
+      document.querySelector('#institution span').textContent = `Instytucja: ${institutionName}`;
 
       document.querySelector('#address-street span').textContent = formData.address;
       document.querySelector('#address-city span').textContent = formData.city;
-      document.querySelector('#address-postcode span').textContent = formData.postcode;
-      document.querySelector('#address-phone span').textContent = formData.phone;
+      document.querySelector('#address-zip-code span').textContent = formData.zip_code;
+      document.querySelector('#address-phone-number span').textContent = formData.phone_number;
 
-      document.querySelector('#pickup-date span').textContent = formData.data;
-      document.querySelector('#pickup-time span').textContent = formData.time;
-      document.querySelector('#pickup-more-info span').textContent = formData.more_info || 'No additional comments';
+      document.querySelector('#pickup-date span').textContent = formData.pick_up_date;
+      document.querySelector('#pickup-time span').textContent = formData.pick_up_time;
+      document.querySelector('#pickup-comment span').textContent = formData.pick_up_comment || 'No additional comments';
     }
 
     getFormData() {
@@ -292,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function() {
         body: formData,
         headers: {'X-CSRFToken': csrfToken}
       })
-          .then(response => response.json())
+          .then(response => window.location.assign("/potwierdzenie-darowizny/"))
           .catch(error => {
             console.error(error)
           })

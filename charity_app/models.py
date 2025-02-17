@@ -84,4 +84,4 @@ class Donation(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, default=None)
 
     def __str__(self):
-        return f'{self.quantity} - {self.pick_up_date} - {self.pick_up_time} - {self.user}'
+        return f'Who: {self.user} - Bags: {self.quantity} - For: {self.institution.name} - When: {self.pick_up_date} - {self.pick_up_time}'
