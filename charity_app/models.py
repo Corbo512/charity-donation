@@ -1,9 +1,6 @@
 from django.db import models
-from django.apps import apps
-from django.contrib import auth
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager
-from django.core.exceptions import PermissionDenied
 
 
 class UserManager(UserManager):
