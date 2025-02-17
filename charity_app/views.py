@@ -1,11 +1,12 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 from django.views.generic.edit import CreateView
-from .forms import UserRegisterForm, UserLoginForm
+from .forms import UserRegisterForm, UserLoginForm, DonationForm
 from .models import Donation, Institution, Category
 
 
@@ -58,12 +59,28 @@ class UserLoginView(FormView):
 
 class AddDonationView(LoginRequiredMixin, TemplateView):
     template_name = 'form.html'
+    form_class = DonationForm
+    success_url = reverse_lazy('donation-confirmation')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['categories'] = Category.objects.all()
         context['institutions'] = Institution.objects.all()
+        context['form'] = self.form_class()
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = DonationForm(request.POST)
+        print("Czy formularz jest poprawny?", form.is_valid())  # Sprawdzenie
+        print("Błędy formularza:", form.errors)
+        if form.is_valid():
+            donation = form.save(commit=False)
+            donation.user = self.request.user
+            donation.save()
+            form.save_m2m()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
 
 class DonationConfirmationView(LoginRequiredMixin, TemplateView):
     template_name = 'form-confirmation.html'

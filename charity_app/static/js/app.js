@@ -243,8 +243,8 @@ document.addEventListener("DOMContentLoaded", function() {
       const bagsQuantity = formData.bags ? formData.bags : 'Not defined';
       document.querySelector('#bags-quantity span').textContent = `Bags quantity: ${bagsQuantity}`;
 
-      const organization = formData.organization ? formData.organization : 'Not defined';
-      document.querySelector('#organization span').textContent = `Organization: ${organization}`;
+      const institution = formData.institution ? formData.institution : 'Not defined';
+      document.querySelector('#institution span').textContent = `Organization: ${institution}`;
 
       document.querySelector('#address-street span').textContent = formData.address;
       document.querySelector('#address-city span').textContent = formData.city;
@@ -280,6 +280,22 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       this.currentStep++;
       this.updateForm();
+
+      const form = document.querySelector('#donation-form')
+      const formData = new FormData(form);
+      console.log([...formData.entries()]);
+
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+      fetch('/przekaz-dary/', {
+        method: 'POST',
+        body: formData,
+        headers: {'X-CSRFToken': csrfToken}
+      })
+          .then(response => response.json())
+          .catch(error => {
+            console.error(error)
+          })
     }
   }
   const form = document.querySelector(".form--steps");

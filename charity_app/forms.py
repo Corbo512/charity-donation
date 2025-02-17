@@ -1,6 +1,5 @@
 from django import forms
-from .models import User
-from django.contrib.auth import authenticate
+from .models import User, Donation
 
 
 class UserRegisterForm(forms.ModelForm):
@@ -39,3 +38,9 @@ class UserLoginForm(forms.Form):
                    'placeholder': 'Hasło'
                    })
     )
+
+class DonationForm(forms.ModelForm):
+    class Meta:
+        model = Donation
+        fields = ["quantity", "categories", "institution", "address", "phone_number", "city", "zip_code", "pick_up_date",
+                  "pick_up_time", "pick_up_comment"]
