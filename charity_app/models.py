@@ -13,11 +13,8 @@ class UserManager(UserManager):
         if not email:
             raise ValueError('Email is required')
         email = self.normalize_email(email)
-        GlobalUserModel = apps.get_model(self.model._meta.app_label, self.model._meta.object_name) #a to wgl potrzebne?
-        email = GlobalUserModel.normalize_email(email)
         user = self.model(email=email, first_name=first_name, last_name=last_name, **extra_fields)
         user.set_password(password)
-        # user.password = make_password(password) tutaj też
         user.save(using=self.db)
         return user
 

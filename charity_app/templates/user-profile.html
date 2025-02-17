@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-    <body>
+    <div>
     <header>
       <nav class="container container--70">
         <ul>
@@ -25,5 +25,20 @@
     <div>
         <h1>Email: {{ user.email}}</h1>
     </div>
-  </body>
+    <div>
+        <h1>Darowizny:</h1>
+        {% for donation in donations %}
+            <ul>
+            <li>Ilość worków: {{ donation.quantity }}</li>
+            <li>Dla: {{ donation.institution }}</li>
+            <li>Kategorie:
+                {% for category in donation.categories.all %}
+                {{ category.name }}{% if not forloop.last %},{% endif %}
+                {% endfor %}</li>
+            <li>Data odbioru: {{ donation.pick_up_date }} {{ donation.pick_up_time }}</li>
+            </ul>
+        {% empty %}
+        <p>Brak darowizn</p>
+        {% endfor %}
+    </div>
 {% endblock %}
